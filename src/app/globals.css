@@ -1,7 +1,6 @@
 @import "tailwindcss";
 
-/* ── Tailwind v4 theme tokens ── */
-@theme {
+/* ── Tailwind v4 theme tokens ── */theme {
   --font-outfit: "Outfit", system-ui, sans-serif;
   --color-primary: var(--primary-color, #FF5500);
 
