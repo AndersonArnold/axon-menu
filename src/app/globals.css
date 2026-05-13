@@ -1,0 +1,151 @@
+@import "tailwindcss";
+
+/* ── Tailwind v4 theme tokens ── */
+@theme {
+  --font-outfit: "Outfit", system-ui, sans-serif;
+  --color-primary: var(--primary-color, #FF5500);
+
+  /* Dark palette tokens */
+  --color-surface-base:   #0f172a;
+  --color-surface-card:   #1e293b;
+  --color-surface-raised: #263548;
+  --color-border-dark:    #334155;
+  --color-text-primary:   #f1f5f9;
+  --color-text-muted:     #94a3b8;
+}
+
+/* ── CSS Custom Properties (Primary color injected server-side per tenant) ── */
+:root {
+  --primary-color: #FF5500; /* overridden by lojista's cor_primaria at SSR */
+  --font-outfit: "Outfit", sans-serif;
+  /* Página cardápio: base mais profunda + camada para vignette no body */
+  --surface-page: #070b12;
+}
+
+/* ── Force dark mode globally (no system-preference dependency) ── */
+html {
+  color-scheme: dark;
+  background-color: var(--surface-page);
+  scroll-behavior: smooth;
+  -webkit-tap-highlight-color: transparent;
+}
+
+body {
+  font-family: var(--font-outfit), system-ui, sans-serif;
+  min-height: 100dvh;
+  background-color: var(--surface-page);
+  background-image:
+    radial-gradient(ellipse 120% 80% at 50% -20%, color-mix(in srgb, var(--primary-color) 18%, transparent), transparent 55%),
+    radial-gradient(ellipse 90% 60% at 100% 0%, rgba(99, 102, 241, 0.06), transparent 45%),
+    radial-gradient(ellipse 70% 50% at 0% 100%, rgba(14, 165, 233, 0.05), transparent 40%);
+  background-attachment: fixed;
+  color: #f1f5f9;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* ── Scrollbar (thin, dark-themed) ── */
+::-webkit-scrollbar { width: 4px; height: 4px; }
+::-webkit-scrollbar-track { background: var(--surface-page, #070b12); }
+::-webkit-scrollbar-thumb { background: #334155; border-radius: 99px; }
+::-webkit-scrollbar-thumb:hover { background: #475569; }
+
+.scrollbar-hide::-webkit-scrollbar { display: none; }
+.scrollbar-hide { -ms-overflow-style: none; scrollbar-width: none; }
+
+/* ── Skeleton shimmer animation ── */
+@keyframes shimmer {
+  0%   { background-position: -400px 0; }
+  100% { background-position: 400px 0; }
+}
+
+/* ── Upload spinner ── */
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+.skeleton {
+  background: linear-gradient(
+    90deg,
+    #1e293b 25%,
+    #263548 50%,
+    #1e293b 75%
+  );
+  background-size: 800px 100%;
+  animation: shimmer 1.4s ease-in-out infinite;
+  border-radius: 8px;
+}
+
+/* ── Micro-interaction: ripple on add button ── */
+@keyframes ripple {
+  0%   { transform: scale(0); opacity: 0.6; }
+  100% { transform: scale(2.5); opacity: 0; }
+}
+
+.ripple-container { position: relative; overflow: hidden; }
+.ripple-container .ripple {
+  position: absolute;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.35);
+  animation: ripple 0.55s linear forwards;
+  pointer-events: none;
+}
+
+/* ── Scale-in for modals ── */
+@keyframes scaleIn {
+  from { opacity: 0; transform: scale(0.93) translateY(10px); }
+  to   { opacity: 1; transform: scale(1)    translateY(0);     }
+}
+
+/* ── Slide-up for drawer ── */
+@keyframes slideUp {
+  from { transform: translateY(100%); }
+  to   { transform: translateY(0);    }
+}
+
+/* ── Fade-up for content ── */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(14px); }
+  to   { opacity: 1; transform: translateY(0);     }
+}
+
+.animate-fade-up     { animation: fadeUp  0.35s ease forwards; }
+.animate-scale-in    { animation: scaleIn 0.3s  ease forwards; }
+.animate-slide-up    { animation: slideUp 0.38s cubic-bezier(0.32,0.72,0,1) forwards; }
+
+/* ── Cart badge bounce ── */
+@keyframes cartBounce {
+  0%, 100% { transform: scale(1);    }
+  30%       { transform: scale(1.35); }
+  60%       { transform: scale(0.9); }
+}
+.animate-cart-bounce { animation: cartBounce 0.4s ease; }
+
+/* ── Checkmark pop for add confirmation ── */
+@keyframes checkPop {
+  0%   { transform: scale(0) rotate(-45deg); opacity: 0; }
+  60%  { transform: scale(1.2) rotate(0deg); opacity: 1; }
+  100% { transform: scale(1)   rotate(0deg); opacity: 1; }
+}
+.animate-check-pop { animation: checkPop 0.35s cubic-bezier(0.34,1.56,0.64,1) forwards; }
+
+/* ── Botão “Adicionar”: brilho de confirmação antes de fechar o drawer ── */
+@keyframes btnConfirmGlow {
+  0% {
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.25), 0 0 0 0 rgba(255, 255, 255, 0);
+    filter: brightness(1);
+  }
+  40% {
+    box-shadow:
+      0 8px 32px rgba(34, 197, 94, 0.55),
+      0 0 48px 8px rgba(255, 255, 255, 0.22);
+    filter: brightness(1.12);
+  }
+  100% {
+    box-shadow: 0 6px 24px rgba(34, 197, 94, 0.35), 0 0 0 0 rgba(255, 255, 255, 0);
+    filter: brightness(1);
+  }
+}
+.animate-btn-confirm-glow {
+  animation: btnConfirmGlow 0.75s ease-out forwards;
+}
