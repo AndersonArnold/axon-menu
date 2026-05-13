@@ -15,7 +15,7 @@ export const OrderPrint = ({ order }: { order: any }) => {
         <div style={{ marginBottom: '10px' }}>
           {order.itens?.map((item: any, index: number) => (
             <div key={index} style={{ marginBottom: '5px' }}>
-              <div style={{ display: 'flex', justifyBetween: 'space-between' }}>
+              <div style={{ display: 'flex', justifyContent: 'space-between' }}>
                 <span>{item.quantidade}x {item.nome}</span>
                 <span style={{ marginLeft: 'auto' }}>R$ {(item.preco * item.quantidade).toFixed(2)}</span>
               </div>
